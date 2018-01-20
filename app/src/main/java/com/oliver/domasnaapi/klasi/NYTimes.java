@@ -1,6 +1,7 @@
 package com.oliver.domasnaapi.klasi;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by Oliver on 1/20/2018.
@@ -12,6 +13,7 @@ public class NYTimes implements Serializable {
     String title;
     String url;
     String short_url;
+   public ArrayList<Multimedia> multimedia;
 
     public NYTimes(String section, String title, String url, String short_url) {
         this.section = section;

@@ -34,12 +34,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        context = this;
+
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this,1));
+//        Call<NYTimesModel> call2 = api.getSection("home");
+        api = new RestApi(this);
+        Call<NYTimesModel> call = api.getUrl("");
+//        Call<NYTimesModel> call1 = api.getTitle("home");
 
-        Call<NYTimesModel> call = api.getUrl("home");
-        Call<NYTimesModel> call1 = api.getTitle("home");
-        Call<NYTimesModel> call2 = api.getSection("home");
         call.enqueue(new Callback<NYTimesModel>() {
 
             @Override

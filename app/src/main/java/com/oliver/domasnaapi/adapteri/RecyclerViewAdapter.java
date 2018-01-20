@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.oliver.domasnaapi.R;
+import com.oliver.domasnaapi.klasi.Multimedia;
 import com.oliver.domasnaapi.klasi.NYTimes;
 import com.oliver.domasnaapi.modeli.NYTimesModel;
 import com.squareup.picasso.Picasso;
@@ -25,7 +26,7 @@ import butterknife.ButterKnife;
 
 public class RecyclerViewAdapter  extends Adapter<RecyclerViewAdapter.ViewHolder>{
     NYTimesModel model = new NYTimesModel();
-    Context context;
+    Context context1;
 
     public void setItems(ArrayList<NYTimes> results) {
         model.results = results;
@@ -33,7 +34,7 @@ public class RecyclerViewAdapter  extends Adapter<RecyclerViewAdapter.ViewHolder
 
     public RecyclerViewAdapter(NYTimesModel model, Context context) {
         this.model = model;
-        this.context = context;
+        this.context1 = context;
     }
 
 
@@ -50,17 +51,16 @@ public class RecyclerViewAdapter  extends Adapter<RecyclerViewAdapter.ViewHolder
     public void onBindViewHolder(RecyclerViewAdapter.ViewHolder holder, final int position) {
         NYTimes results = model.results.get(position);
         holder.section.setText("Section :"+results.getSection());
+        Multimedia multimedia = results.multimedia.get(position);
         holder.title.setText("Title : " +results.getTitle());
-//        holder.url.setText("URL :"+results.getUrl());
         holder.short_url.setText("Short Url :"+results.getShort_url());
 
 
-        Picasso.with(context).load(results.getUrl()).fit().centerInside().into(holder.slika);
 
 
 
 
-//        Picasso.with(context).load(photos.getImage_url()).fit().into(holder.slika);
+        Picasso.with(context1).load(multimedia.url).fit().into(holder.slika1);
 
     }
 
@@ -71,7 +71,7 @@ public class RecyclerViewAdapter  extends Adapter<RecyclerViewAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.slika)
-        ImageView slika;
+        ImageView slika1;
         @BindView(R.id.section)
         TextView section;
         @BindView(R.id.title)

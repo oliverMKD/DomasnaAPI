@@ -18,14 +18,14 @@ import retrofit2.http.Query;
  */
 
 public interface ApiService {
-    @GET("title?"+ApiConstants.Api_key)
-    Call<NYTimesModel> getTitle(@Query("feature") String featureString);
+//    @GET("title?"+ApiConstants.Api_key)
+//    Call<NYTimesModel> getTitle(@Query("feature") String featureString);
 
-    @GET("url?"+ApiConstants.Api_key)
-    Call<NYTimesModel> getUrl(@Query("feature") String featureString);
-
-    @GET("section?"+ApiConstants.Api_key)
-    Call<NYTimesModel> getSection(@Query("feature") String featureString);
+    @GET("home.json?"+ApiConstants.Api_key)
+    Call<NYTimesModel> getUrl(@Query("") String featureString);
+//
+//    @GET("section?"+ApiConstants.Api_key)
+//    Call<NYTimesModel> getSection(@Query("feature") String featureString);
 
 
 //    @FormUrlEncoded

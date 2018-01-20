@@ -47,12 +47,12 @@ public class RestApi {
     public Call<NYTimesModel> getUrl(String feature){
         return request().getUrl(feature);
     }
-    public Call<NYTimesModel> getTitle(String feature){
-        return request().getTitle(feature);
-    }
-    public Call<NYTimesModel> getSection(String feature){
-        return request().getSection(feature);
-    }
+//    public Call<NYTimesModel> getTitle(String feature){
+//        return request().getTitle(feature);
+//    }
+//    public Call<NYTimesModel> getSection(String feature){
+//        return request().getSection(feature);
+//    }
 
 
 }
