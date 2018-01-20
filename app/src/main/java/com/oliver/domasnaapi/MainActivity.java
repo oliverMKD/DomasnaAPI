@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this,1));
 
-        Call<NYTimesModel> call = api.getPhotos("home");
+        Call<NYTimesModel> call = api.getUrl("home");
         Call<NYTimesModel> call1 = api.getTitle("home");
         Call<NYTimesModel> call2 = api.getSection("home");
         call.enqueue(new Callback<NYTimesModel>() {

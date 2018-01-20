@@ -22,7 +22,7 @@ public interface ApiService {
     Call<NYTimesModel> getTitle(@Query("feature") String featureString);
 
     @GET("url?"+ApiConstants.Api_key)
-    Call<NYTimesModel> getPhotos(@Query("feature") String featureString);
+    Call<NYTimesModel> getUrl(@Query("feature") String featureString);
 
     @GET("section?"+ApiConstants.Api_key)
     Call<NYTimesModel> getSection(@Query("feature") String featureString);

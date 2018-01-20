@@ -44,8 +44,8 @@ public class RestApi {
         return getRetrofitInstance().create(ApiService.class);
     }
 
-    public Call<NYTimesModel> getPhotos(String feature){
-        return request().getPhotos(feature);
+    public Call<NYTimesModel> getUrl(String feature){
+        return request().getUrl(feature);
     }
     public Call<NYTimesModel> getTitle(String feature){
         return request().getTitle(feature);
@@ -53,4 +53,6 @@ public class RestApi {
     public Call<NYTimesModel> getSection(String feature){
         return request().getSection(feature);
     }
+
+
 }
