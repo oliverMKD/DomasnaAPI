@@ -36,8 +36,6 @@ public class RecyclerViewAdapter  extends Adapter<RecyclerViewAdapter.ViewHolder
         this.model = model;
         this.context1 = context;
     }
-
-
     @Override
     public RecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
@@ -54,12 +52,6 @@ public class RecyclerViewAdapter  extends Adapter<RecyclerViewAdapter.ViewHolder
         Multimedia multimedia = results.multimedia.get(position);
         holder.title.setText("Title : " +results.getTitle());
         holder.short_url.setText("Short Url :"+results.getShort_url());
-
-
-
-
-
-
         Picasso.with(context1).load(multimedia.url).fit().into(holder.slika1);
 
     }
