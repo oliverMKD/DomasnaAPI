@@ -6,6 +6,7 @@ package com.oliver.domasnaapi.api.api;
 
 public class ApiConstants {
 
-//    public static final String baseURL = "https://api.500px.com/v1";
+
     public static final String Api_key = "api-key=ec67cdbe1d92447f9ddd02f752e8463d";
+    public static final String PHOTOS_ENDPOINT = "v2/";
 }

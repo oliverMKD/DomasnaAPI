@@ -75,5 +75,8 @@ public class RestApi {
         return request().getUrl(feature);
     }
 
-
+    public Call<NYTimesModel> getStoriesSearch(String keyword)
+    {
+        return request().getStoriesSearch(keyword);
+    }
 }

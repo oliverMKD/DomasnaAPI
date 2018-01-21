@@ -23,6 +23,9 @@ public interface ApiService {
 
     @GET("home.json?"+ApiConstants.Api_key)
     Call<NYTimesModel> getUrl(@Query("") String featureString);
+
+    @GET(ApiConstants.PHOTOS_ENDPOINT+"search?"+ApiConstants.Api_key)
+    Call<NYTimesModel> getStoriesSearch(@Query("term") String featureString);
 //
 //    @GET("section?"+ApiConstants.Api_key)
 //    Call<NYTimesModel> getSection(@Query("feature") String featureString);
