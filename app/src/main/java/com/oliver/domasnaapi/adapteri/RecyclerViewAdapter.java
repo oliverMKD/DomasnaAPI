@@ -47,18 +47,24 @@ public class RecyclerViewAdapter  extends Adapter<RecyclerViewAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(RecyclerViewAdapter.ViewHolder holder, final int position) {
-        NYTimes results = model.results.get(position);
-        holder.section.setText("Section :"+results.getSection());
-        Multimedia multimedia = results.multimedia.get(position);
-        holder.title.setText("Title : " +results.getTitle());
-        holder.short_url.setText("Short Url :"+results.getShort_url());
-        Picasso.with(context1).load(multimedia.url).fit().into(holder.slika1);
-
+        try {
+            NYTimes results = model.results.get(position);
+            holder.section.setText("Section :" + results.getSection());
+            Multimedia multimedia = results.multimedia.get(position);
+            holder.title.setText("Title : " + results.getTitle());
+            holder.short_url.setText("Short Url :" + results.getShort_url());
+            Picasso.with(context1).load(multimedia.url).fit().into(holder.slika1);
+        } catch (Exception e) {
+        }
     }
 
     @Override
     public int getItemCount() {
-        return model.results.size();
+        try {
+            return model.results.size();
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

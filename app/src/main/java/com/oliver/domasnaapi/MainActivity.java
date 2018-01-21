@@ -38,13 +38,9 @@ public class MainActivity extends AppCompatActivity {
 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this,1));
-//        Call<NYTimesModel> call2 = api.getSection("home");
         api = new RestApi(this);
         Call<NYTimesModel> call = api.getUrl("");
-//        Call<NYTimesModel> call1 = api.getTitle("home");
-
         call.enqueue(new Callback<NYTimesModel>() {
-
             @Override
             public void onResponse(Call<NYTimesModel> call, Response<NYTimesModel> response) {
                 if (response.code() == 200) {
