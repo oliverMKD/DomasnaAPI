@@ -11,6 +11,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -26,6 +27,9 @@ public interface ApiService {
 
     @GET(ApiConstants.PHOTOS_ENDPOINT+"search?"+ApiConstants.Api_key)
     Call<NYTimesModel> getStoriesSearch(@Query("term") String featureString);
+
+    @GET("{link}")
+    Call<NYTimesModel> getStoriesRefreshSearch(@Path("link") String link);
 //
 //    @GET("section?"+ApiConstants.Api_key)
 //    Call<NYTimesModel> getSection(@Query("feature") String featureString);

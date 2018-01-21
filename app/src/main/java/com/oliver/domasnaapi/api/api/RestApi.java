@@ -79,4 +79,8 @@ public class RestApi {
     {
         return request().getStoriesSearch(keyword);
     }
+    public Call<NYTimesModel> getRefStoriesSearch(String link)
+    {
+        return request().getStoriesRefreshSearch(link);
+    }
 }

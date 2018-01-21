@@ -4,4 +4,6 @@
     <string name="check_internet_message" />
     <string name="check_internet_settings" />
     <string name="check_internet_cancel" />
+    <string name="error" />
+    <string name="error_msg" />
 </resources>

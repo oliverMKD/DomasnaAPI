@@ -1,6 +1,7 @@
 package com.oliver.domasnaapi;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,7 +28,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
-    @BindView(R.id.recyclerView)
+    @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.progressBar1)
     ProgressBar progressBar;
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         context = this;
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this,1));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 1));
         progressBar.setVisibility(View.VISIBLE);
 
         api = new RestApi(this);
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(searchField.getText().length()>=3){
+                if (searchField.getText().length() >= 3) {
 
                     progressBar.setVisibility(View.VISIBLE);
                     searchStories(searchField.getText().toString());
@@ -78,29 +79,109 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        Call<NYTimesModel> call = api.getUrl("");
-        call.enqueue(new Callback<NYTimesModel>() {
+        api.checkInternet(new Runnable() {
             @Override
-            public void onResponse(Call<NYTimesModel> call, Response<NYTimesModel> response) {
-                if (response.code() == 200) {
-                    model = response.body();
-                    mAdapter = new RecyclerViewAdapter(model, context);
-                    mRecyclerView.setAdapter(mAdapter);
-                    progressBar.setVisibility(View.INVISIBLE);
-                } else if (response.code() == 401) {
-                    Toast.makeText(context, "OUPS!", Toast.LENGTH_LONG).show();
-                }
-            }
+            public void run() {
+                Call<NYTimesModel> call = api.getUrl("");
+                call.enqueue(new Callback<NYTimesModel>() {
+                    @Override
+                    public void onResponse(Call<NYTimesModel> call, Response<NYTimesModel> response) {
+                        if (response.code() == 200) {
+                            model = response.body();
+                            mAdapter = new RecyclerViewAdapter(model, context);
+                            mRecyclerView.setAdapter(mAdapter);
+                            progressBar.setVisibility(View.INVISIBLE);
+                            tipText.setVisibility(View.GONE);
+                        } else if (response.code() == 401) {
+                            Toast.makeText(context, "OUPS!", Toast.LENGTH_LONG).show();
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    }
 
+                    @Override
+                    public void onFailure(Call<NYTimesModel> call, Throwable t) {
+                        Toast.makeText(context, "Something went wrong!", Toast.LENGTH_LONG).show();
+                        tipText.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
+        });
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onFailure(Call<NYTimesModel> call, Throwable t) {
-                Toast.makeText(context, "Something went wrong!", Toast.LENGTH_LONG).show();
+            public void onRefresh() {
+                progressBar.setVisibility(View.VISIBLE);
+                refreshRecyclerView();
             }
-
-
         });
     }
-    public void searchStories(final String keyword){
+
+    private void refreshRecyclerView() {
+        mSwipeRefreshLayout.setRefreshing(false);
+        api.checkInternet(new Runnable() {
+            @Override
+            public void run() {
+                Call<NYTimesModel> call = api.getRefStoriesSearch(link);
+                call.enqueue(new Callback<NYTimesModel>() {
+                    @Override
+                    public void onResponse(Call<NYTimesModel> call, Response<NYTimesModel> response) {
+
+                        if (response.code() == 200) {
+                            model = response.body();
+                            mAdapter.setItems(model.results);
+                            progressBar.setVisibility(View.GONE);
+
+                        } else {
+
+                            mAdapter.setItems(new NYTimesModel().results);
+                            Toast.makeText(context, "Something went wrong!", Toast.LENGTH_LONG).show();
+                            progressBar.setVisibility(View.GONE);
+                            tipText.setVisibility(View.VISIBLE);
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<NYTimesModel> call, Throwable t) {
+                        GlobalFunctions.showAlertDialogWithOneButton(context, getResources().getString(R.string.error), getResources().getString(R.string.error_msg), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                progressBar.setVisibility(View.GONE);
+                                tipText.setVisibility(View.VISIBLE);
+
+
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+    //        Call<NYTimesModel> call = api.getUrl("");
+//        call.enqueue(new Callback<NYTimesModel>() {
+//            @Override
+//            public void onResponse(Call<NYTimesModel> call, Response<NYTimesModel> response) {
+//                if (response.code() == 200) {
+//                    model = response.body();
+//                    mAdapter = new RecyclerViewAdapter(model, context);
+//                    mRecyclerView.setAdapter(mAdapter);
+//                    progressBar.setVisibility(View.INVISIBLE);
+//                } else if (response.code() == 401) {
+//                    Toast.makeText(context, "OUPS!", Toast.LENGTH_LONG).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<NYTimesModel> call, Throwable t) {
+//                Toast.makeText(context, "Something went wrong!", Toast.LENGTH_LONG).show();
+//            }
+//
+//
+//        });
+
+    public void searchStories(final String keyword) {
         api.checkInternet(new Runnable() {
             @Override
             public void run() {
@@ -111,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<NYTimesModel> call, Response<NYTimesModel> response) {
 
-                        if(response.isSuccessful()) {
+                        if (response.isSuccessful()) {
                             model = response.body();
                             mAdapter.setItems(model.results);
                             mRecyclerView.setAdapter(mAdapter);
@@ -119,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
                             tipText.setVisibility(View.INVISIBLE);
                             progressBar.setVisibility(View.GONE);
 
-                            if(model.results==null || model.results.size()==0) {
+                            if (model.results == null || model.results.size() == 0) {
                                 tipText.setVisibility(View.VISIBLE);
                                 tipText.setText("No such stories!");
                             }
@@ -144,6 +225,7 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
-    }
+
 
 }
+            }
